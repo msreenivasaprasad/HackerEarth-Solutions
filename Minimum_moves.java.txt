@@ -1,0 +1,28 @@
+
+import java.io.IOException;
+
+import java.util.Scanner;
+
+public class Minimum_moves {
+	public static void main(String[] args) throws IOException {
+		Scanner input = new Scanner(System.in);
+		int first = input.nextInt();
+		for (int i = 0; i < first; i++) {
+
+			int a = input.nextInt();
+			int b = input.nextInt();
+			if (a < 0 || b < 0) {
+				System.out.println(-1);
+				continue;
+			}
+			if (b > a) {
+				System.out.println(-1);
+				continue;
+			}
+			long res = b + (a - b);
+			System.out.println(res);
+		}
+
+	}
+
+}

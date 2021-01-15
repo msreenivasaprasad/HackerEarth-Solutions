@@ -1,0 +1,62 @@
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.Scanner;
+
+public class Areas {
+	public static void main(String[] args) {
+
+		Scanner input = new Scanner(System.in);
+		int cases = input.nextInt();
+		for (int i = 0; i < cases; i++) {
+			int len = input.nextInt();
+			int bre = input.nextInt();
+			int[][] grid = new int[len][bre];
+			for (int j = 0; j < len; j++) {
+				String s = input.next();
+
+				for (int k = 0; k < bre; k++) {
+					char c = s.charAt(k);
+					if (c == '#') {
+						grid[j][k] = 0;
+					} else {
+						grid[j][k] = 1;
+					}
+				}
+			}
+			int max = 0;
+			boolean[][] wasVisited = new boolean[len][bre];
+			List<Integer> res = new ArrayList<Integer>();
+			for (int j = 0; j < len; j++) {
+				for (int k = 0; k < bre; k++) {
+					if (grid[j][k] == 1 && !wasVisited[j][k]) {
+						int t = help(grid, wasVisited, j, k);
+						res.add(t);
+					}
+				}
+			}
+			System.out.println(res.size());
+			;
+			for (int j = 0; j < res.size(); j++) {
+				System.out.print(res.get(j)+" ");
+			}
+			System.out.println();
+
+		}
+	}
+
+	public static int help(int[][] grid, boolean[][] wasVisited, int i, int j) {
+		if (i < 0 || i >= grid.length || j < 0 || j >= grid[0].length || wasVisited[i][j] || grid[i][j] == 0) {
+			return 0;
+		}
+		wasVisited[i][j] = true;
+		int count = 0;
+		count += help(grid, wasVisited, i + 1, j);
+		count += help(grid, wasVisited, i, j + 1);
+		count += help(grid, wasVisited, i - 1, j);
+		count += help(grid, wasVisited, i, j - 1);
+		count++;
+		return count;
+
+	}
+}

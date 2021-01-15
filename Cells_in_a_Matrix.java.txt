@@ -1,0 +1,35 @@
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.HashSet;
+import java.util.Set;
+
+public class Cells_in_a_Matrix {
+	public static void main(String[] args) throws IOException {
+		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+		String first = br.readLine();
+		String[] carr = first.split("\\W+");
+		Long size = Long.parseLong(carr[0]);
+		int cases_count = Integer.parseInt(carr[1]);
+		int[][] cases = new int[cases_count][2];
+		for (int i = 0; i < cases_count; i++) {
+			String s = br.readLine();
+			String[] sarr = s.split("\\W+");
+			cases[i][0] = Integer.parseInt(sarr[0]);
+			cases[i][1] = Integer.parseInt(sarr[1]);
+		}
+		Set<Integer> rowCount = new HashSet<Integer>();
+		Set<Integer> colCount = new HashSet<Integer>();
+		long  res = size * size;
+		for (int i = 0; i < cases_count; i++) {
+			if (rowCount.add(cases[i][0])) {
+				res -= (size - colCount.size());
+			}
+			if (colCount.add(cases[i][1])) {
+				res -= (size - rowCount.size());
+			}
+			System.out.print(res + " ");
+		}
+
+	}
+}

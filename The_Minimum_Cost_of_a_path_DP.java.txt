@@ -1,0 +1,78 @@
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.StringTokenizer;
+
+public class The_Minimum_Cost_of_a_path_DP {
+	public static void main(String[] args) throws IOException {
+		BufferedReader input = new BufferedReader(new InputStreamReader(System.in));
+		int cases = Integer.parseInt(input.readLine());
+		dyn = new int[100001];
+		for (int i = 2; i < dyn.length; i++) {
+			dyn[i] = -1;
+		}
+		for (int i = 0; i < cases; i++) {
+			StringTokenizer tk = new StringTokenizer(input.readLine());
+			int n = Integer.parseInt(tk.nextToken());
+			int m = Integer.parseInt(tk.nextToken());
+			int[][] grid = new int[n][m];
+			long[][] dynamic = new long[n][m];
+			for (int j = 0; j < dynamic.length; j++) {
+				for (int k = 0; k < dynamic[0].length; k++) {
+					dynamic[j][k] = -1;
+				}
+			}
+			for (int j = 0; j < n; j++) {
+				tk = new StringTokenizer(input.readLine());
+				for (int k = 0; k < m; k++) {
+					grid[j][k] = Integer.parseInt(tk.nextToken());
+					int t = minDivisible(grid[j][k]);
+					grid[j][k] = minDivisible(grid[j][k]);
+				}
+			}
+
+			System.out.println(minPath(0, 0, grid, dynamic));
+
+		}
+
+	}
+
+	static int[] dyn;
+
+	public static int minDivisible(int n) {
+		if (dyn[n] != -1) {
+			return dyn[n];
+		}
+		for (int i = 2; i <= n; i++) {
+			if (n % i == 0) {
+				int t = minDivisible(n / i) + 1;
+				dyn[n] = t;
+				return t;
+			}
+		}
+		return n;
+	}
+
+	public static long minPath(int i, int j, int[][] grid, long[][] dynamic) {
+		if (dynamic[i][j] != -1) {
+			return dynamic[i][j];
+		}
+		if (i == grid.length - 1 && j == grid[0].length - 1) {
+			return grid[i][j];
+		}
+		long t = Long.MAX_VALUE;
+		long s = Long.MAX_VALUE;
+		if (i < grid.length - 1) {
+			t = minPath(i + 1, j, grid, dynamic) + grid[i][j];
+		}
+		if (j < grid[0].length - 1) {
+			s = minPath(i, j + 1, grid, dynamic) + grid[i][j];
+		}
+		long res = Long.min(t, s);
+		dynamic[i][j] = res;
+		return res;
+	}
+
+}

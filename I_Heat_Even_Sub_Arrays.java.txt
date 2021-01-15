@@ -1,0 +1,41 @@
+import java.util.Scanner;
+import java.util.Stack;
+
+public class I_Heat_Even_Sub_Arrays {
+	public static void main(String[] args) {
+		Scanner input = new Scanner(System.in);
+		int cases = input.nextInt();
+		for (int i = 0; i < cases; i++) {
+			String s = input.next();
+			char[] c = s.toCharArray();
+			int[] nums = new int[c.length];
+			for (int j = 0; j < nums.length; j++) {
+				nums[j] = c[j] - '0';
+			}
+			Stack<Character> stack = new Stack<Character>();
+			for (int j = nums.length - 1; j >= 0; j--) {
+				if (stack.isEmpty()) {
+					stack.push(c[j]);
+					continue;
+				}
+				char temp = stack.peek();
+				if (temp == c[j]) {
+					stack.pop();
+					continue;
+				}
+				stack.push(c[j]);
+			}
+			if(stack.isEmpty()) {
+				System.out.println("KHALI");
+			}else {
+				while(!stack.isEmpty()) {
+					System.out.print(stack.pop());
+				}
+				System.out.println();
+			}
+			
+
+		}
+	}
+
+}

@@ -1,0 +1,43 @@
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.Scanner;
+
+public class Help_them_out {
+	public static void main(String[] args) {
+
+		Scanner input = new Scanner(System.in);
+		int size = input.nextInt();
+		int[] nums = new int[size];
+		for (int i = 0; i < nums.length; i++) {
+			nums[i] = input.nextInt();
+		}
+		int divsReq = 0;
+		int subsReq = 0;
+		for (int i = 0; i < nums.length; i++) {
+			int[] counter = count(new int[2], nums[i]);
+			int tdivReq = counter[0];
+			int tsubReq = counter[1];
+			if (tdivReq > divsReq) {
+				divsReq = tdivReq;
+			}
+			subsReq += tsubReq;
+		}
+		System.out.println(divsReq + subsReq);
+	}
+
+	public static int[] count(int[] counter, int n) {
+		if (n == 0) {
+			return counter;
+		}
+		if (n % 2 == 0) {
+			counter[0]++;
+			return count(counter, n / 2);
+		} else {
+			counter[1]++;
+			return count(counter, n - 1);
+		}
+
+	}
+
+}

@@ -1,0 +1,49 @@
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.ArrayList;
+import java.util.List;
+ 
+public class Finding_vaccines {
+	public static void main(String[] args) throws IOException {
+		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+		int first = Integer.parseInt(br.readLine());
+		int len1 = Integer.parseInt(br.readLine());
+		String virus = br.readLine();
+		int gcount = 0;
+		int ccount = 0;
+ 
+		for (int i = 0; i < virus.length(); i++) {
+			if (virus.charAt(i) == 'G') {
+				gcount++;
+			}
+			if (virus.charAt(i) == 'C') {
+				ccount++;
+			}
+		}
+		int res = 0;
+		int max = 0;
+		for (int i = 0; i < first; i++) {
+			int len2 = Integer.parseInt(br.readLine());
+			String s = br.readLine();
+			char[] c = s.toCharArray();
+			int vgcount = 0;
+			int vccount = 0;
+			for (int j = 0; j < c.length; j++) {
+				if (c[j] == 'G') {
+					vgcount++;
+				}
+				if (c[j] == 'C') {
+					vccount++;
+				}
+			}
+			int temp = (vccount * gcount) + (vgcount * ccount);
+			if (temp > max) {
+				res = i + 1;
+				max = temp;
+			}
+		}
+		System.out.println(res);
+	}
+ 
+}
