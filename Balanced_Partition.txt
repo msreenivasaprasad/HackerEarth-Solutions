@@ -1,0 +1,114 @@
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.StringTokenizer;
+
+public class Balanced_Partition {
+	public static void main(String[] args) throws NumberFormatException, IOException {
+		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+		int cases = Integer.parseInt(br.readLine());
+		for (int i = 0; i < cases; i++) {
+			int size = Integer.parseInt(br.readLine());
+			int[][] points = new int[size][3];
+			for (int j = 0; j < size; j++) {
+				StringTokenizer tk = new StringTokenizer(br.readLine());
+				points[j][0] = Integer.parseInt(tk.nextToken());
+				points[j][1] = Integer.parseInt(tk.nextToken());
+				points[j][2] = Integer.parseInt(tk.nextToken());
+			}
+			int[] people = new int[size];
+			int[] distances = new int[size];
+			long sum = 0;
+			for (int j = 0; j < people.length; j++) {
+				people[j] = points[j][2];
+				distances[j] = points[j][0] - points[j][1];
+				sum += people[j];
+			}
+			mergeSort(distances, people, 0, people.length);
+			;
+			long leftsum = sum;
+			long rightsum = 0;
+			int rightIndex = people.length - 1;
+			boolean flag = false;
+//			for (int j = 0; j < distances.length; j++) {
+//				System.out.print(distances[j] + " ");
+//			}
+//			System.out.println();
+//			for (int j = 0; j < distances.length; j++) {
+//				System.out.print(people[j] + " ");
+//			}
+
+			while (rightIndex >= 0) {
+				if (rightIndex == -1) {
+					break;
+				}
+				long onLine = 0;
+				rightsum += people[rightIndex];
+				leftsum -= people[rightIndex];
+				onLine = people[rightIndex];
+				while (rightIndex - 1 >= 0 && distances[rightIndex - 1] == distances[rightIndex]) {
+					rightsum += people[rightIndex - 1];
+					leftsum -= people[rightIndex - 1];
+					onLine += people[rightIndex - 1];
+					rightIndex--;
+				}
+				rightIndex--;
+				if (rightsum == leftsum) {
+					flag = true;
+					System.out.println("YES");
+				} else if (rightsum - onLine == leftsum) {
+					flag = true;
+					System.out.println("YES");
+				}
+			}
+			if (!flag) {
+				System.out.println("NO");
+			}
+		}
+
+	}
+
+	public static void mergeSort(int[] nums, int[] temp, int left, int right) {
+		if (left + 1 == right) {
+			return;
+		}
+		int mid = (left + right) / 2;
+		mergeSort(nums, temp, left, mid);
+		mergeSort(nums, temp, mid, right);
+		merge(nums, temp, left, mid, right);
+
+	}
+
+	public static void merge(int[] nums, int[] tempo, int left, int mid, int right) {
+		int[] temp = new int[right - left];
+		int[] temp2 = new int[right - left];
+
+		int k = 0;
+		int i = left;
+		int j = mid;
+		while (i <= mid - 1 && j <= right - 1) {
+			if (nums[i] <= nums[j]) {
+				temp2[k] = tempo[i];
+				temp[k++] = nums[i++];
+			} else {
+				temp2[k] = tempo[j];
+				temp[k++] = nums[j++];
+			}
+		}
+		while (i <= mid - 1) {
+			temp2[k] = tempo[i];
+			temp[k++] = nums[i++];
+		}
+		while (j <= right - 1) {
+			temp2[k] = tempo[j];
+			temp[k++] = nums[j++];
+		}
+		k = 0;
+		for (i = left; i <= right - 1; i++) {
+			tempo[i] = temp2[k];
+			nums[i] = temp[k++];
+		}
+
+	}
+
+}

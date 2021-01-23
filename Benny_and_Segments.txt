@@ -1,0 +1,135 @@
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.StringTokenizer;
+
+public class Benny_and_Segments {
+	public static void main(String[] args) throws NumberFormatException, IOException {
+		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+		int cases = Integer.parseInt(br.readLine());
+
+		for (int i = 0; i < cases; i++) {
+
+			StringTokenizer tk = new StringTokenizer(br.readLine());
+			int size = Integer.parseInt(tk.nextToken());
+			int k = Integer.parseInt(tk.nextToken());
+			int[] starts = new int[size];
+			int[] ends = new int[size];
+			for (int j = 0; j < starts.length; j++) {
+				tk = new StringTokenizer(br.readLine());
+				starts[j] = Integer.parseInt(tk.nextToken());
+				ends[j] = Integer.parseInt(tk.nextToken());
+			}
+			if (i != 2) {
+				continue;
+			}
+			System.out.println("K :" + k);
+
+			mergeSort(ends, starts, 0, ends.length);
+			for (int s = 0; s < starts.length; s++) {
+				System.out.println(starts[s] + " " + ends[s] + "Diff :" + ((ends[s] - starts[s]) == k));
+			}
+			int[] dyn = new int[size];
+			int index = 1;
+			int right = 1;
+			dyn[0] = starts[0];
+			boolean flag = false;
+			while (right < size) {
+				if (starts[right] <= ends[right - 1] && starts[right] >= starts[right - 1]) {
+					dyn[index++] = starts[right];
+					for (int s = 0; s < index; s++) {
+						if (ends[right] - dyn[s] == k) {
+							System.out.println("Here :" + ends[right] + " " + dyn[s]);
+							flag = true;
+						}
+					}
+					right++;
+				} else {
+					dyn[0] = starts[right];
+					if (ends[right] - starts[right] == k) {
+						flag = true;
+					}
+					index = 1;
+					right++;
+				}
+			}
+			if (!flag) {
+				System.out.println("No");
+			} else {
+				System.out.println("Yes");
+			}
+		}
+
+	}
+
+	public static void mergeSort(int[] input, int[] nums, int start, int end) {
+		if (start + 1 == end) {
+			return;
+		} else {
+//			System.out.println("Hello ");
+			int mid = (start + end) / 2;
+			mergeSort(input, nums, start, mid);
+			mergeSort(input, nums, mid, end);
+			merge(input, nums, start, mid, end);
+
+		}
+	}
+
+	public static void merge(int[] input, int[] nums, int start, int mid, int end) {
+//		System.out.println(start+" "+mid+" "+end);
+		int temp[] = new int[end - start];
+		int tempo[] = new int[end - start];
+		int i = start, j = mid, k = 0;
+		while ((i <= mid - 1) && (j <= end - 1)) {
+			if (input[i] < input[j]) {
+				temp[k] = input[i];
+				tempo[k] = nums[i];
+				i++;
+				k++;
+			} else if (input[i] > input[j]) {
+				temp[k] = input[j];
+				tempo[k] = nums[j];
+				j++;
+				k++;
+			} else {
+				if (nums[i] <= nums[j]) {
+					temp[k] = input[i];
+					tempo[k] = nums[i];
+					i++;
+					k++;
+
+				} else {
+					temp[k] = input[j];
+					tempo[k] = nums[j];
+					j++;
+					k++;
+
+				}
+
+			}
+		}
+		while (i <= mid - 1) {
+			temp[k] = input[i];
+			tempo[k] = nums[i];
+			i++;
+			k++;
+		}
+		while (j <= end - 1) {
+			temp[k] = input[j];
+			tempo[k] = nums[j];
+			j++;
+			k++;
+		}
+		k = 0;
+		for (int p = start; p < end; p++) {
+			nums[p] = tempo[k];
+			input[p] = temp[k];
+//	System.out.println(input[k]);
+			k++;
+		}
+
+	}
+}

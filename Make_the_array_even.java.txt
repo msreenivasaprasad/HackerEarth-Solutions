@@ -1,0 +1,42 @@
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.StringTokenizer;
+
+public class Make_the_array_even {
+	public static void main(String[] args) throws IOException {
+		BufferedReader input = new BufferedReader(new InputStreamReader(System.in));
+		int cases = Integer.parseInt(input.readLine());
+
+		for (int i = 0; i < cases; i++) {
+			int size = Integer.parseInt(input.readLine());
+
+			StringTokenizer tk = new StringTokenizer(input.readLine());
+			int res = 0;
+			int c_odd_count = 0;
+			for (int j = 0; j < size; j++) {
+				int t = Integer.parseInt(tk.nextToken());
+				if (t % 2 != 0) {
+					c_odd_count++;
+				} else {
+					if (c_odd_count % 2 == 0) {
+						res += c_odd_count / 2;
+					} else {
+						res += (c_odd_count - 1) / 2;
+						res += 2;
+					}
+					c_odd_count = 0;
+				}
+			}
+			if (c_odd_count % 2 == 0) {
+				res += c_odd_count / 2;
+			} else {
+				res += (c_odd_count - 1) / 2;
+				res += 2;
+			}
+			System.out.println(res);
+		}
+
+	}
+
+}

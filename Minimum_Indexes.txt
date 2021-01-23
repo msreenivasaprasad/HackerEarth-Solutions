@@ -1,0 +1,45 @@
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.StringTokenizer;
+
+public class Minimum_Indexes {
+	public static void main(String[] args) throws IOException {
+		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+		StringTokenizer tk = new StringTokenizer(br.readLine());
+		int len = Integer.parseInt(tk.nextToken());
+		int count = Integer.parseInt(tk.nextToken());
+		int[] arr = new int[len];
+		tk = new StringTokenizer(br.readLine());
+		for (int i = 0; i < len; i++) {
+			arr[i] = Integer.parseInt(tk.nextToken());
+		}
+		int[] digitssum = new int[len];
+		for (int i = 0; i < arr.length; i++) {
+			digitssum[i] = digitsum(arr[i]);
+
+		}
+		for (int i = 0; i < count; i++) {
+			boolean flag = false;
+			int index = Integer.parseInt(br.readLine()) - 1;
+			for (int j = index + 1; j < arr.length; j++) {
+				if (digitssum[j] < digitssum[index] && arr[j] > arr[index]) {
+					System.out.println(j + 1);
+					flag = true;
+					break;
+				}
+			}
+			if (!flag) {
+				System.out.println(-1);
+			}
+		}
+	}
+
+	public static int digitsum(int n) {
+		if (n == 0) {
+			return 0;
+		}
+		return (n % 10) + digitsum(n / 10);
+	}
+
+}

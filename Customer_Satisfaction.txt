@@ -1,0 +1,47 @@
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.StringTokenizer;
+
+public class Customer_Satisfaction {
+	public static void main(String[] args) throws IOException {
+		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+		int cases = Integer.parseInt(br.readLine());
+		for (int i = 0; i < cases; i++) {
+			int size = Integer.parseInt(br.readLine());
+			int[][] orders = new int[size][3];
+			int max = 0;
+			for (int j = 0; j < size; j++) {
+				StringTokenizer tk = new StringTokenizer(br.readLine());
+				orders[j][0] = Integer.parseInt(tk.nextToken());
+				orders[j][1] = Integer.parseInt(tk.nextToken());
+				orders[j][2] = Integer.parseInt(tk.nextToken());
+				if (orders[j][1] > max) {
+					max = orders[j][1];
+				}
+			}
+			long[] orders_end = new long[max];
+			for (int j = 0; j < size; j++) {
+				orders_end[orders[j][1] - 1] += orders[j][2];
+			}
+			long orders_sofar = 0;
+			long maxRate = 0;
+			for (int j = 0; j < orders_end.length; j++) {
+				int end_time = j + 1;
+				orders_sofar += orders_end[j];
+				long trate = 0;
+				if (orders_sofar % end_time == 0) {
+					trate = orders_sofar / end_time;
+				} else {
+					trate = (orders_sofar / end_time) + 1;
+				}
+				if (trate > maxRate) {
+					maxRate = trate;
+				}
+			}
+			System.out.println(maxRate);
+
+		}
+	}
+
+}

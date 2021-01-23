@@ -1,0 +1,127 @@
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
+import java.util.StringTokenizer;
+
+public class Old_keypad_in_a_foreign_land {
+	public static void main(String[] args) throws NumberFormatException, IOException {
+		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+		int freqlength = Integer.parseInt(br.readLine());
+		StringTokenizer tk = new StringTokenizer(br.readLine());
+		int[] frequencies = new int[freqlength];
+		for (int i = 0; i < freqlength; i++) {
+			frequencies[i] = Integer.parseInt(tk.nextToken());
+		}
+		int keyLen = Integer.parseInt(br.readLine());
+		int[] keysCapacity = new int[keyLen];
+		tk = new StringTokenizer(br.readLine());
+		int sum = 0;
+		for (int i = 0; i < keyLen; i++) {
+			keysCapacity[i] = Integer.parseInt(tk.nextToken());
+			sum += keysCapacity[i];
+		}
+		if (sum < freqlength) {
+			System.out.println(-1);
+			return;
+		}
+		int[] counter = new int[51];
+		for (int i = 0; i < keysCapacity.length; i++) {
+			for (int j = 1; j <= keysCapacity[i]; j++) {
+				counter[j]++;
+			}
+		}
+		Arrays.sort(frequencies);
+		int i = 1;
+		int j = frequencies.length - 1;
+		long res = 0;
+		while (i < counter.length) {
+			int t = counter[i];
+			while (t > 0) {
+				res += i * frequencies[j];
+				j--;
+				if (j < 0) {
+					break;
+				}
+				t--;
+			}
+			if (j < 0) {
+				break;
+			}
+			i++;
+		}
+		System.out.println(res);
+	}
+
+	public static void mergeSort(int[] input, String[] nums, int start, int end) {
+		if (start + 1 == end) {
+			return;
+		} else {
+//			System.out.println("Hello ");
+			int mid = (start + end) / 2;
+			mergeSort(input, nums, start, mid);
+			mergeSort(input, nums, mid, end);
+			merge(input, nums, start, mid, end);
+
+		}
+	}
+
+	public static void merge(int[] input, String[] nums, int start, int mid, int end) {
+//		System.out.println(start+" "+mid+" "+end);
+		int temp[] = new int[end - start];
+		String[] tempo = new String[end - start];
+		int i = start, j = mid, k = 0;
+		while ((i <= mid - 1) && (j <= end - 1)) {
+			if (input[i] < input[j]) {
+				temp[k] = input[i];
+				tempo[k] = nums[i];
+				i++;
+				k++;
+			} else if (input[i] > input[j]) {
+				temp[k] = input[j];
+				tempo[k] = nums[j];
+				j++;
+				k++;
+			} else {
+				if (nums[i].compareTo(nums[j]) >= 0) {
+					temp[k] = input[i];
+					tempo[k] = nums[i];
+					i++;
+					k++;
+
+				} else {
+					temp[k] = input[j];
+					tempo[k] = nums[j];
+					j++;
+					k++;
+
+				}
+
+			}
+		}
+		while (i <= mid - 1) {
+			temp[k] = input[i];
+			tempo[k] = nums[i];
+			i++;
+			k++;
+		}
+		while (j <= end - 1) {
+			temp[k] = input[j];
+			tempo[k] = nums[j];
+			j++;
+			k++;
+		}
+		k = 0;
+		for (int p = start; p < end; p++) {
+			nums[p] = tempo[k];
+			input[p] = temp[k];
+//	System.out.println(input[k]);
+			k++;
+		}
+
+	}
+}
