@@ -1,0 +1,46 @@
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.StringTokenizer;
+
+public class Swap_it {
+	public static void main(String[] args) throws NumberFormatException, IOException {
+		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+		int cases = Integer.parseInt(br.readLine());
+		for (int i = 0; i < cases; i++) {
+			StringTokenizer tk = new StringTokenizer(br.readLine());
+
+			int size = Integer.parseInt(tk.nextToken());
+			int k = Integer.parseInt(tk.nextToken());
+			tk = new StringTokenizer(br.readLine());
+			int[] nums = new int[size];
+			for (int j = 0; j < size; j++) {
+				nums[j] = Integer.parseInt(tk.nextToken());
+			}
+			for (int p = 0; p < nums.length; p++) {
+				int minIndex = p;
+				int tcount = 0;
+				for (int s = p; s < nums.length; s++) {
+					if (nums[s] < nums[minIndex] && s - p <= k) {
+						tcount = s - p;
+						minIndex = s;
+					}
+				}
+				k -= tcount;
+				int temp = nums[minIndex];
+				for (int q = minIndex; q > p; q--) {
+					nums[q] = nums[q - 1];
+				}
+				nums[p] = temp;
+				if (k == 0) {
+					break;
+				}
+			}
+			for (int j = 0; j < nums.length; j++) {
+				System.out.print(nums[j] + " ");
+			}
+			System.out.println();
+
+		}
+	}
+}

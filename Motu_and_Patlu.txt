@@ -1,0 +1,47 @@
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.StringTokenizer;
+
+public class Motu_and_Patlu {
+	public static void main(String[] args) throws NumberFormatException, IOException {
+		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+		int cases = Integer.parseInt(br.readLine());
+		for (int i = 0; i < cases; i++) {
+			int size = Integer.parseInt(br.readLine());
+			StringTokenizer tk = new StringTokenizer(br.readLine());
+			long[] nums = new long[size];
+			for (int j = 0; j < size; j++) {
+				nums[j] = Integer.parseInt(tk.nextToken());
+			}
+			long leftSum = 0;
+			long rightSum = 0;
+			int leftIndex = 0;
+			int leftCount = 0;
+			int rightCount = 0;
+			int rightIndex = nums.length - 1;
+			while (leftIndex <= rightIndex) {
+				if (leftSum <= 2 * rightSum) {
+					leftSum += nums[leftIndex++];
+					leftCount++;
+				} else {
+					rightSum += nums[rightIndex--];
+					rightCount++;
+				}
+			}
+			System.out.println(leftCount + " " + rightCount);
+			if (leftCount == rightCount) {
+				System.out.println("Tie");
+				continue;
+			}
+			if (leftCount > rightCount) {
+				System.out.println("Motu");
+				continue;
+			}
+			System.out.println("Patlu");
+
+		}
+	}
+
+
+}

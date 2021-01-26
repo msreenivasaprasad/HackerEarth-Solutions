@@ -1,0 +1,41 @@
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+
+public class Pikachu_and_the_Game_of_Strings{
+	public static void main(String[] args) throws NumberFormatException, IOException {
+		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+		int size = Integer.parseInt(br.readLine());
+		char[] source = br.readLine().toCharArray();
+		char[] destiny = br.readLine().toCharArray();
+		int res = 0;
+		for (int i = 0; i < size; i++) {
+			int tres = minSteps(source[i], destiny[i]);
+			char tchar = (char) (source[i] + 13);
+			if (!(tchar <= 'Z')) {
+				tchar = (char) ((tchar - 'Z') + 'A' - 1);
+			}
+			tres = Integer.min(tres, minSteps(tchar, destiny[i]) + 1);
+			res += tres;
+		}
+		System.out.println(res);
+	}
+
+	public static int minSteps(char start, char destiny) {
+
+		if (destiny >= start) {
+			return destiny - start;
+		}
+		return 26 - (start - destiny);
+	}
+
+	public static int gcd(int a, int b) {
+		if (a == 0)
+			return b;
+
+		return gcd(b % a, a);
+	}
+
+
+
+}

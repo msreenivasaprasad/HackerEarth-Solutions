@@ -1,0 +1,30 @@
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.text.DecimalFormat;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.StringTokenizer;
+
+public class Fast_Sort {
+	public static void main(String[] args) throws NumberFormatException, IOException {
+		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+		int cases = Integer.parseInt(br.readLine());
+		for (int i = 0; i < cases; i++) {
+			char[] order = br.readLine().toCharArray();
+			char[] c = br.readLine().toCharArray();
+			int[] count = new int[26];
+			for (int j = 0; j < c.length; j++) {
+				count[c[j] - 'a']++;
+			}
+			for (int j = 0; j < order.length; j++) {
+				for (int k = 0; k < count[order[j] - 'a']; k++) {
+					System.out.print(order[j]);
+				}
+			}
+			System.out.println();
+		}
+
+	}
+}
